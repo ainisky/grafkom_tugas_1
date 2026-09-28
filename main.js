@@ -1,18 +1,655 @@
-const canvas = document.getElementById('glCanvas');
-const ctx = canvas.getContext('2d');
+//From here to object is a template/standard webgl code from module, DO NOT CHANGE ANYTHING.
 
-function drawScene() {
-    ctx.fillStyle = "#00FFFF";
-    ctx.fillRect(100, 400, canvas.width, 200);
+import { Mat3 } from "./matrix3.js";
 
-    ctx.beginPath();
-    ctx.arc(50, 550, 250, 0, Math.PI * 2);
-    ctx.fillStyle = "yellow";
+const canvas = document.getElementById("glCanvas");
+const gl = canvas.getContext("webgl2");
 
-    ctx.moveTo(50, 550); //progres
-    ctx.lineTo(50, 300); //progres
-    ctx.fill();
+console.log(canvas);
+console.log(canvas.width, canvas.height);
+console.log(gl);
+
+if (!gl) {
+  throw new Error("WebGL2 tidak tersedia.");
+}
+const vertexShaderSource = `#version 300 es
+
+in vec2 a_position;
+
+uniform mat3 u_matrix;
+
+void main() {
+  vec3 p =
+    u_matrix *
+    vec3(
+      a_position,
+      1.0
+    );
+
+  gl_Position =
+    vec4(
+      p.xy,
+      0.0,
+      1.0
+    );
+}
+`;
+
+const fragmentShaderSource = `#version 300 es
+
+precision highp float;
+
+uniform vec4 u_color;
+
+out vec4 outColor;
+
+void main() {
+  outColor =
+    u_color;
+}
+`;
+
+function createShader(
+  gl,
+  type,
+  source
+) {
+  const shader =
+    gl.createShader(type);
+
+  gl.shaderSource(
+    shader,
+    source
+  );
+
+  gl.compileShader(
+    shader
+  );
+
+  const success =
+    gl.getShaderParameter(
+      shader,
+      gl.COMPILE_STATUS
+    );
+
+  if (!success) {
+    const info =
+      gl.getShaderInfoLog(
+        shader
+      );
+
+    gl.deleteShader(
+      shader
+    );
+
+    throw new Error(
+      "Shader compile error:\n" +
+      info
+    );
+  }
+
+  return shader;
+}
+
+function createProgram(
+  gl,
+  vertexShader,
+  fragmentShader
+) {
+  const program =
+    gl.createProgram();
+
+  gl.attachShader(
+    program,
+    vertexShader
+  );
+
+  gl.attachShader(
+    program,
+    fragmentShader
+  );
+
+  gl.linkProgram(
+    program
+  );
+
+  const success =
+    gl.getProgramParameter(
+      program,
+      gl.LINK_STATUS
+    );
+
+  if (!success) {
+    const info =
+      gl.getProgramInfoLog(
+        program
+      );
+
+    gl.deleteProgram(
+      program
+    );
+
+    throw new Error(
+      "Program link error:\n" +
+      info
+    );
+  }
+
+  return program;
+}
+
+const vertexShader =
+  createShader(
+    gl,
+    gl.VERTEX_SHADER,
+    vertexShaderSource
+  );
+
+const fragmentShader =
+  createShader(
+    gl,
+    gl.FRAGMENT_SHADER,
+    fragmentShaderSource
+  );
+
+const program =
+  createProgram(
+    gl,
+    vertexShader,
+    fragmentShader
+  );
+
+gl.useProgram(
+  program
+);
+
+const positionBuffer = gl.createBuffer();
+
+// Function for quick shape switching buffer
+
+function setShape(vertices){
+    gl.bindBuffer(
+      gl.ARRAY_BUFFER,
+      positionBuffer
+    );
+    
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      vertices,
+      gl.STATIC_DRAW
+    );
+}
+
+const positionLocation =
+  gl.getAttribLocation(
+    program,
+    "a_position"
+  );
+
+gl.bindBuffer(
+  gl.ARRAY_BUFFER,
+  positionBuffer
+);
+
+gl.enableVertexAttribArray(
+  positionLocation
+);
+
+gl.vertexAttribPointer(
+  positionLocation,
+  2,
+  gl.FLOAT,
+  false,
+  0,
+  0
+);
+
+const matrixLocation =
+  gl.getUniformLocation(
+    program,
+    "u_matrix"
+  );
+
+const colorLocation =
+  gl.getUniformLocation(
+    program,
+    "u_color"
+  );
+
+function degToRad(
+  degree
+) {
+  return (
+    degree *
+    Math.PI /
+    180
+  );
+}
+
+//Objects, add new objects/shapes if needed
+
+const triangleVertices =
+  new Float32Array([
+    -0.18, -0.15,
+     0.18, -0.15,
+     0.00,  0.22
+  ]);
+
+const squareVertices =
+  new Float32Array([
+    -0.2, -0.2,
+     0.2,  0.2,
+    -0.2,  0.2,
+
+    -0.2, -0.2,
+     0.2, -0.2,
+     0.2,  0.2,
+
+  ]); 
+
+const trapezoidVertices =
+  new Float32Array([
+    -0.15, -0.2,
+     0.2,  0.2,
+    -0.2,  0.2,
+
+    -0.15, -0.2,
+     0.15, -0.2,
+     0.2,  0.2,
+
+  ]);
+
+// Helper to make circles
+
+function createCircleVertices(
+  radius,
+  segments
+) {
+  const vertices = [];
+
+  for (let i = 0; i < segments; i++) {
+    const angle1 =
+      (i / segments) *
+      Math.PI * 2;
+
+    const angle2 =
+      ((i + 1) / segments) *
+      Math.PI * 2;
+
+    // Center point
+    vertices.push(
+      0,
+      0
+    );
+
+    // First point on edge
+    vertices.push(
+      Math.cos(angle1) * radius,
+      Math.sin(angle1) * radius
+    );
+
+    // Second point on edge
+    vertices.push(
+      Math.cos(angle2) * radius,
+      Math.sin(angle2) * radius
+    );
+  }
+
+  return new Float32Array(vertices);
+}
+
+const circleVertices =
+  createCircleVertices(
+    0.2, //rad
+    32 //amount of vertices, more = smoother
+  );
+
+//This function does the math to determine object location after transformation
+
+function createTRSMatrix(
+  transform
+) {
+  const t =
+    Mat3.translation(
+      transform.x,
+      transform.y
+    );
+
+  const r =
+    Mat3.rotation(
+      degToRad(
+        transform.rotation
+      )
+    );
+
+  const s =
+    Mat3.scaling(
+      transform.scaleX,
+      transform.scaleY
+    );
+
+  let matrix =
+    Mat3.identity();
+
+  matrix =
+    Mat3.multiply(
+      matrix,
+      s
+    );
+
+  matrix =
+    Mat3.multiply(
+      matrix,
+      r
+    );
+
+  matrix =
+    Mat3.multiply(
+      matrix,
+      t
+    );
+
+  return matrix;
+}
+
+//Helper function to make calling or drawing the object easier
+
+function drawShape(
+    vertices,
+    x,
+    y,
+    scaleX,
+    scaleY,
+    rotation,
+    color,
+){
+    setShape(vertices);
+    const matrix = createTRSMatrix ({
+        x: x,
+        y: y,
+        scaleX: scaleX,
+        scaleY: scaleY,
+        rotation: rotation
+    });
+
+    gl.uniformMatrix3fv(
+        matrixLocation,
+        false,
+        matrix
+    );
+
+    gl.uniform4fv(
+        colorLocation,
+        color
+    );
+
+    gl.drawArrays(
+        gl.TRIANGLES,
+        0,
+        vertices.length / 2
+    );
 
 }
 
-drawScene();
+//Function to draw or call the shapes into the scene or canvas
+
+function drawScene(seconds) {
+  gl.viewport(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  gl.clearColor(
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  );
+
+  gl.clear(
+    gl.COLOR_BUFFER_BIT
+  );
+
+  gl.useProgram(program);
+
+  //Call the shapes needed
+
+    //Example triangle
+    /*drawShape(
+        triangleVertices,
+        0.0,       // x
+        0.0,       // y
+        1.0,       // width
+        1.0,       // height
+        0.0,       // rotation
+        new Float32Array([
+            1, 0, 0, 1 // red
+        ])
+    );*/
+
+    //Example square
+    /*drawShape(
+        squareVertices,
+        0.0,
+        -0.2,
+        1.0,
+        1.0,
+        0.0,
+        new Float32Array(
+            [0, 1, 0, 1]
+        )
+    );*/
+
+    //ami nambahin disini aja yg shape2 kmu
+
+    //boat movement
+    const boatX = 0.25 + Math.sin(seconds) * 0.04;
+
+    // 0.25 itu koordinat x.
+    // math.sin itu ngebuat dia gerak "naik turun" atau "kanan kiri" sesuai ubah x atau y nya.
+    // 0.04 itu sejauh apa dia naik/turun atau kanan/kiri.
+
+    //boat body
+    drawShape(
+        trapezoidVertices,
+        boatX,
+        0.0,
+        1.7,
+        0.40,
+        0.0,
+        new Float32Array(
+            [0.1, 0.1, 0.1, 1]
+        )
+    );
+
+    //boat sail
+    const sailX = 0.6 + Math.sin(seconds) * 0.1;
+    drawShape(
+        triangleVertices,
+        sailX,
+        0.192,
+        0.6,
+        1.9,
+        0.0,
+        new Float32Array([
+            1, 0, 0.2, 1
+        ])
+    );
+
+    //clouds
+    const cloud1X = Math.sin(seconds * 1.2) * 0.05;
+    const cloud2X = Math.sin(seconds * 1.15) * 0.04;
+
+    drawShape(
+        circleVertices,
+        1.9 + cloud1X,      
+        1.5,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        2.1 + cloud1X,      
+        1.2,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        1.81 + cloud1X,      
+        1.6,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        1.8 + cloud1X,      
+        0.9,        
+        0.4,        
+        0.7,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+    
+    drawShape(
+        circleVertices,
+        1.5 + cloud1X,      
+        1.5,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        1.5 + cloud1X,      
+        1.2,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    //clouds number 2
+    
+    drawShape(
+        circleVertices,
+        -0.1 + cloud2X,      
+        1.28,        
+        0.45,        
+        0.6,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -0.3 + cloud2X,      
+        1.35,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -0.2 + cloud2X,      
+        1.15,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        0.12 + cloud2X,      
+        1.6,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        0.12 + cloud2X,      
+        0.9,        
+        0.4,        
+        0.7,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+    
+    drawShape(
+        circleVertices,
+        0.45 + cloud2X,      
+        1.5,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        0.4 + cloud2X,      
+        1.2,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+}
+
+//Function that calls drawscene multiple times to make an animation
+
+function render(time){
+    const seconds= time / 1000;
+
+    drawScene(seconds);
+
+    requestAnimationFrame(render);
+}
+
+requestAnimationFrame(render);

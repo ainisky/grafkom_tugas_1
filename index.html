@@ -27,70 +27,31 @@
       </h1>
 
       <p>
-        WebGL — Tugas 1 (ubah aja, aku lupa tugas brp)
+        WebGL — Tugas 1 
       </p>
     </header>
 
-    <canvas
-      id="glCanvas"
-      width="900"
-      height="600">
-    </canvas>
+    <div class="visual-container">
 
-    <section id="hud">
-      <div>
-        Position:
-        <span id="positionInfo"></span>
+      <canvas
+        id="glCanvas"
+        width="900"
+        height="600">
+      </canvas>
+
+      <div class="picture">
+        <h2>Reference</h2>
+
+        <img
+          src="ref.jpeg"
+          alt="reference"
+        />
       </div>
+    </div>
 
-      <div>
-        Rotation:
-        <span id="rotationInfo"></span>
-      </div>
-
-      <div>
-        Scale:
-        <span id="scaleInfo"></span>
-      </div>
-
-      <div>
-        Order:
-        <span id="orderInfo">
-          Scale → Rotate → Translate
-        </span>
-      </div>
-    </section>
-
-    <section class="controls">
-      <strong>Kontrol:</strong>
-
-      <span>
-        Arrow Keys = Move
-      </span>
-
-      <span>
-        Q/E = Rotate
-      </span>
-
-      <span>
-        +/- = Uniform Scale
-      </span>
-
-      <span>
-        Z/X = Scale X
-      </span>
-
-      <span>
-        C/V = Scale Y
-      </span>
-
-      <span>
-        R = Reset
-      </span>
-    </section>
   </main>
 
-  <script src="main.js"></script>
+  <script type="module" src="main.js"></script>
 
 </body>
 </html>
