@@ -228,6 +228,18 @@ function degToRad(
 
 //Objects, add new objects/shapes if needed
 
+const rectangleVertices =
+  new Float32Array([
+    -0.75, -0.080,
+    1.00, -0.080,
+    -0.75,  -1.00,
+    1.00,  -1.00,
+    1.00,  -0.080,
+    -0.75,  -1.00
+  ]);
+
+  
+
 const triangleVertices =
   new Float32Array([
     -0.18, -0.15,
@@ -301,7 +313,7 @@ function createCircleVertices(
 const circleVertices =
   createCircleVertices(
     0.2, //rad
-    32 //amount of vertices, more = smoother
+    126 //amount of vertices, more = smoother
   );
 
 //This function does the math to determine object location after transformation
@@ -443,6 +455,226 @@ function drawScene(seconds) {
     );*/
 
     //ami nambahin disini aja yg shape2 kmu
+    //water
+    drawShape(
+        rectangleVertices,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        new Float32Array(
+            [0.2, 0.8, 1.0, 1]
+        )
+    );
+
+    //tree
+    const wind = Math.sin(seconds * 2) * 0.01;
+
+    drawShape(
+        circleVertices,
+        -1.50+wind,      
+        1.52,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.75+wind,      
+        1.45,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.65+wind,      
+        1.25,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.9+wind,      
+        1.15,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.35+wind,      
+        1.25,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.15+wind,      
+        1.0,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.5+wind,      
+        1.0,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.75+wind,      
+        1.0,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.52, 0.90, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.4+wind,      
+        0.8,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.75, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -2+wind,      
+        0.8,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.75, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.1+wind,      
+        0.9,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.75, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.75+wind,      
+        0.8,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.75, 0.35, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.76+wind,      
+        0.6,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.05, 0.55, 0.45, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -1.1+wind,      
+        0.3,        
+        0.6,        
+        0.8,        
+        0.0,        
+        new Float32Array([
+            0.05, 0.55, 0.45, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -0.8+wind,      
+        0.35,        
+        0.6,        
+        0.8,        
+        0.0,        
+        new Float32Array([
+            0.05, 0.55, 0.45, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -0.6+wind,      
+        0.1,        
+        0.8,        
+        1,        
+        0.0,        
+        new Float32Array([
+            0.05, 0.55, 0.45, 1
+        ])
+    );
+
+    //land
+    drawShape(
+        circleVertices,
+        -0.190,      
+        -0.140,        
+        10,        
+        10,        
+        0.0,        
+        new Float32Array([
+            1.0, 1.0, 0.0, 1.0
+        ])
+    );
 
     //boat movement
     const boatX = 0.25 + Math.sin(seconds) * 0.04;
