@@ -621,13 +621,14 @@ function drawScene(seconds) {
 
     //tree
     const wind = Math.sin(seconds * 2) * 0.01;
+    const scale = 1.0 + Math.sin(seconds * 1) * 0.03;
 
     drawShape(
         circleVertices,
         -1.50+wind,      
         1.52,        
-        0.45,        
-        0.5,        
+        0.45 * scale,        
+        0.5 * scale,        
         0.0,        
         new Float32Array([
             0.52, 0.90, 0.35, 1
@@ -638,8 +639,8 @@ function drawScene(seconds) {
         circleVertices,
         -1.75+wind,      
         1.45,        
-        0.45,        
-        0.5,        
+        0.45*scale,        
+        0.5*scale,        
         0.0,        
         new Float32Array([
             0.52, 0.90, 0.35, 1
@@ -722,8 +723,8 @@ function drawScene(seconds) {
         circleVertices,
         -1.4+wind,      
         0.8,        
-        0.45,        
-        0.5,        
+        0.45*scale,        
+        0.5*scale,        
         0.0,        
         new Float32Array([
             0.2, 0.75, 0.35, 1
@@ -734,8 +735,8 @@ function drawScene(seconds) {
         circleVertices,
         -2+wind,      
         0.8,        
-        0.45,        
-        0.5,        
+        0.45*scale,        
+        0.5*scale,        
         0.0,        
         new Float32Array([
             0.2, 0.75, 0.35, 1
@@ -746,8 +747,8 @@ function drawScene(seconds) {
         circleVertices,
         -1.1+wind,      
         0.9,        
-        0.45,        
-        0.5,        
+        0.45*scale,        
+        0.5*scale,        
         0.0,        
         new Float32Array([
             0.2, 0.75, 0.35, 1
@@ -758,8 +759,8 @@ function drawScene(seconds) {
         circleVertices,
         -1.75+wind,      
         0.8,        
-        0.45,        
-        0.5,        
+        0.45*scale,        
+        0.5*scale,        
         0.0,        
         new Float32Array([
             0.2, 0.75, 0.35, 1
