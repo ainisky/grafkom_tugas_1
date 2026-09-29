@@ -238,36 +238,23 @@ const rectangleVertices =
     -0.75,  -1.00
   ]);
 
-  
-
-const triangleVertices =
+const triangleVertices = //for sail
   new Float32Array([
-    -0.18, -0.15,
-     0.18, -0.15,
-     0.00,  0.22
+    -0.1, -0.15,
+     0.1, -0.15,
+     0.00,  0.6
   ]);
-
-const squareVertices =
-  new Float32Array([
-    -0.2, -0.2,
-     0.2,  0.2,
-    -0.2,  0.2,
-
-    -0.2, -0.2,
-     0.2, -0.2,
-     0.2,  0.2,
-
-  ]); 
+ 
 
 const trapezoidVertices =
   new Float32Array([
     -0.15, -0.2,
-     0.2,  0.2,
-    -0.2,  0.2,
+     0.58,  0.0,
+    -0.23,  0.0,
 
     -0.15, -0.2,
-     0.15, -0.2,
-     0.2,  0.2,
+     0.5, -0.2,
+     0.58,  0.0,
 
   ]);
 
@@ -428,33 +415,6 @@ function drawScene(seconds) {
 
   //Call the shapes needed
 
-    //Example triangle
-    /*drawShape(
-        triangleVertices,
-        0.0,       // x
-        0.0,       // y
-        1.0,       // width
-        1.0,       // height
-        0.0,       // rotation
-        new Float32Array([
-            1, 0, 0, 1 // red
-        ])
-    );*/
-
-    //Example square
-    /*drawShape(
-        squareVertices,
-        0.0,
-        -0.2,
-        1.0,
-        1.0,
-        0.0,
-        new Float32Array(
-            [0, 1, 0, 1]
-        )
-    );*/
-
-    //ami nambahin disini aja yg shape2 kmu
     //water
     drawShape(
         rectangleVertices,
@@ -466,6 +426,197 @@ function drawScene(seconds) {
         new Float32Array(
             [0.2, 0.8, 1.0, 1]
         )
+    );
+
+    //clouds
+    const cloud1X = Math.sin(seconds * 1.2) * 0.05;
+    const cloud2X = Math.sin(seconds * 1.15) * 0.04;
+
+    drawShape(
+        circleVertices,
+        1.9 + cloud1X,      
+        1.5,        
+        0.45,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        2.1 + cloud1X,      
+        1.2,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        1.81 + cloud1X,      
+        1.6,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        1.8 + cloud1X,      
+        0.9,        
+        0.4,        
+        0.7,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+    
+    drawShape(
+        circleVertices,
+        1.5 + cloud1X,      
+        1.5,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        1.5 + cloud1X,      
+        1.2,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    //clouds number 2
+    
+    drawShape(
+        circleVertices,
+        -0.1 + cloud2X,      
+        1.28,        
+        0.45,        
+        0.6,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -0.3 + cloud2X,      
+        1.35,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        -0.2 + cloud2X,      
+        1.15,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        0.12 + cloud2X,      
+        1.6,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        0.12 + cloud2X,      
+        0.9,        
+        0.4,        
+        0.7,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+    
+    drawShape(
+        circleVertices,
+        0.45 + cloud2X,      
+        1.5,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    drawShape(
+        circleVertices,
+        0.4 + cloud2X,      
+        1.2,        
+        0.4,        
+        0.5,        
+        0.0,        
+        new Float32Array([
+            0.2, 0.8, 1.0, 1
+        ])
+    );
+
+    //boat movement
+    const boatX = -1.5 + ((seconds * 0.25) % 3.0)
+
+    //boat body
+    drawShape(
+        trapezoidVertices,
+        boatX + 0.24,
+        0.12,
+        1.0,
+        1.0,
+        0.0,
+        new Float32Array(
+            [0.1, 0.1, 0.1, 1]
+        )
+    );
+
+    //boat sail
+    drawShape(
+        triangleVertices,
+        boatX + 0.3,
+        0.27,
+        1.0,
+        1.0,
+        0.0,
+        new Float32Array([
+            1, 0, 0.2, 1
+        ])
     );
 
     //tree
@@ -673,202 +824,6 @@ function drawScene(seconds) {
         0.0,        
         new Float32Array([
             1.0, 1.0, 0.0, 1.0
-        ])
-    );
-
-    //boat movement
-    const boatX = 0.25 + Math.sin(seconds) * 0.04;
-
-    // 0.25 itu koordinat x.
-    // math.sin itu ngebuat dia gerak "naik turun" atau "kanan kiri" sesuai ubah x atau y nya.
-    // 0.04 itu sejauh apa dia naik/turun atau kanan/kiri.
-
-    //boat body
-    drawShape(
-        trapezoidVertices,
-        boatX,
-        0.0,
-        1.7,
-        0.40,
-        0.0,
-        new Float32Array(
-            [0.1, 0.1, 0.1, 1]
-        )
-    );
-
-    //boat sail
-    const sailX = 0.6 + Math.sin(seconds) * 0.1;
-    drawShape(
-        triangleVertices,
-        sailX,
-        0.192,
-        0.6,
-        1.9,
-        0.0,
-        new Float32Array([
-            1, 0, 0.2, 1
-        ])
-    );
-
-    //clouds
-    const cloud1X = Math.sin(seconds * 1.2) * 0.05;
-    const cloud2X = Math.sin(seconds * 1.15) * 0.04;
-
-    drawShape(
-        circleVertices,
-        1.9 + cloud1X,      
-        1.5,        
-        0.45,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        2.1 + cloud1X,      
-        1.2,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        1.81 + cloud1X,      
-        1.6,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        1.8 + cloud1X,      
-        0.9,        
-        0.4,        
-        0.7,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-    
-    drawShape(
-        circleVertices,
-        1.5 + cloud1X,      
-        1.5,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        1.5 + cloud1X,      
-        1.2,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    //clouds number 2
-    
-    drawShape(
-        circleVertices,
-        -0.1 + cloud2X,      
-        1.28,        
-        0.45,        
-        0.6,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        -0.3 + cloud2X,      
-        1.35,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        -0.2 + cloud2X,      
-        1.15,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        0.12 + cloud2X,      
-        1.6,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        0.12 + cloud2X,      
-        0.9,        
-        0.4,        
-        0.7,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-    
-    drawShape(
-        circleVertices,
-        0.45 + cloud2X,      
-        1.5,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
-        ])
-    );
-
-    drawShape(
-        circleVertices,
-        0.4 + cloud2X,      
-        1.2,        
-        0.4,        
-        0.5,        
-        0.0,        
-        new Float32Array([
-            0.2, 0.8, 1.0, 1
         ])
     );
 
