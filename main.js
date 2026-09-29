@@ -592,28 +592,30 @@ function drawScene(seconds) {
 
     //boat movement
     const boatX = -1.5 + ((seconds * 0.25) % 3.0)
+    const rotation = Math.sin(seconds * 2) * 1.5;
 
     //boat body
     drawShape(
         trapezoidVertices,
         boatX + 0.24,
-        0.12,
+        0.1,
         1.0,
         1.0,
-        0.0,
+        rotation,
         new Float32Array(
             [0.1, 0.1, 0.1, 1]
         )
     );
 
     //boat sail
+
     drawShape(
         triangleVertices,
         boatX + 0.3,
-        0.27,
+        0.25,
         1.0,
         1.0,
-        0.0,
+        rotation,
         new Float32Array([
             1, 0, 0.2, 1
         ])
